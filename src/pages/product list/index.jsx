@@ -7,7 +7,13 @@ const ProductListPage = () => {
   console.log(listOfProducts);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <>
+        <div className="flex justify-center items-center h-screen">
+          <div className="w-10 h-10 border-8 border-gray-300 border-t-black rounded-full animate-spin"></div>
+        </div>
+      </>
+    );
   }
   return (
     <section className="py-12 bg-white sm:py-16 lg:py-20">

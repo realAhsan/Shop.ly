@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { shoppingCartContext } from "../../hooks/useContext";
 
 const ProductDetailsPage = () => {
-  const { productDetails, setProductDetails, handleAddToCart } =
+  const { productDetails, setProductDetails, handleAddToCart, cartItems } =
     useContext(shoppingCartContext);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -28,7 +28,13 @@ const ProductDetailsPage = () => {
   }, [id]);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <>
+        <div className="flex justify-center items-center h-screen">
+          <div className="w-10 h-10 border-8 border-gray-300 border-t-black rounded-full animate-spin"></div>
+        </div>
+      </>
+    );
   }
   return (
     <div className="p-6 lg:max-w-7xl max-w-4xl mx-auto">
@@ -66,10 +72,14 @@ const ProductDetailsPage = () => {
           </div>
           <div>
             <button
-              className="mt-5 min-w-[200px] px-4 py-3 border border-[333] bg-transparent text-sm font-semibold rounded"
+              className="disabled:opacity-50  mt-5 min-w-[200px] px-4 py-3 border border-[333] bg-transparent text-sm font-semibold rounded"
               onClick={() => {
                 handleAddToCart(productDetails);
               }}
+              disabled={
+                cartItems.findIndex((item) => item.id === productDetails.id) >
+                -1
+              }
             >
               Add to Cart
             </button>

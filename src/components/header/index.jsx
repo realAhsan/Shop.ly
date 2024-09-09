@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="flex justify-between items-center bg-black text-white p-4">
-      <div className="text-xl font-bold">Shop.ly</div>
+    <div className="flex justify-between items-center bg-black text-white p-4 px-10">
+      <div className="text-xl font-bold cursor-pointer">Shop.ly</div>
       <div>
         <ul className="flex space-x-4">
           <li>

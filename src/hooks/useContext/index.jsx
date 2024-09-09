@@ -37,15 +37,42 @@ const ShoppingCartContextProvider = ({ children }) => {
       console.log("inside if");
     } else {
       console.log("inside else");
+      copyExistingCartItems[findIndexofCurrentItem] = {
+        ...copyExistingCartItems[findIndexofCurrentItem],
+        quantity: copyExistingCartItems[findIndexofCurrentItem].quantity + 1,
+        totalPrice:
+          (copyExistingCartItems[findIndexofCurrentItem].quantity + 1) *
+          copyExistingCartItems[findIndexofCurrentItem].price,
+      };
     }
     console.log("copyCArt", copyExistingCartItems);
     setCartItems(copyExistingCartItems);
     localStorage.setItem("cartItems", JSON.stringify(copyExistingCartItems));
-    navigate("/cart");
+    // navigate("/cart");
   }
 
+  function handleRemoveFromCart(getProductDetails, isFullyRemoveFromCart) {
+    let copyExistingCartItems = [...cartItems];
+    const findIndexofCurrentItem = copyExistingCartItems.findIndex(
+      (cartItem) => cartItem.id === getProductDetails.id
+    );
+    if (isFullyRemoveFromCart) {
+      copyExistingCartItems.splice(findIndexofCurrentItem, 1);
+    } else {
+      copyExistingCartItems[findIndexofCurrentItem] = {
+        ...copyExistingCartItems[findIndexofCurrentItem],
+        quantity: copyExistingCartItems[findIndexofCurrentItem].quantity - 1,
+        totalPrice:
+          (copyExistingCartItems[findIndexofCurrentItem].quantity - 1) *
+          copyExistingCartItems[findIndexofCurrentItem].price,
+      };
+    }
+    setCartItems(copyExistingCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(copyExistingCartItems));
+  }
   useEffect(() => {
     fetchProductList();
+    setCartItems(JSON.parse(localStorage.getItem("cartItems")) || []);
   }, []);
   return (
     <shoppingCartContext.Provider
@@ -56,6 +83,7 @@ const ShoppingCartContextProvider = ({ children }) => {
         setProductDetails,
         handleAddToCart,
         cartItems,
+        handleRemoveFromCart,
       }}
     >
       {children}
